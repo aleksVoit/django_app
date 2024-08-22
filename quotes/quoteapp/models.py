@@ -11,13 +11,13 @@ class Author(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f'{self.fullname} - {self.born_date}.'
+        return f'{self.fullname}'
 
 
 class Quote(models.Model):
-    tags = ArrayField(models.CharField(max_length=15, blank=True))
-    author = models.ForeignKey(Author, null=False, on_delete=models.CASCADE)
     quote = models.TextField(null=False)
+    author = models.ForeignKey(Author, null=False, on_delete=models.CASCADE)
+    tags = ArrayField(models.CharField(max_length=50, blank=True))
 
     def __str__(self):
         return f'{self.quote}\n{self.author}.'
