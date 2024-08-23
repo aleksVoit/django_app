@@ -1,0 +1,8 @@
+{% extends "quoteapp/base.html" %} {% block content %}
+
+<h1>{{ d_author.fullname }}</h1>
+<p>Was born: <b>{{ d_author.born_date }}</b></p>
+<p>Location: <b>{{ d_author.born_location }}</b></p>
+<p>Description: <b>{{ d_author.description }}</b></p>
+<a href="{% url 'quoteapp:delete_author' d_author.id %}" role="button" class="contrast"> Delete </a>
+{% endblock %}

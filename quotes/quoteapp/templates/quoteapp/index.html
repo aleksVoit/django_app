@@ -17,11 +17,9 @@
     {% for quote in quotes %}
     <ul>
         <li>
-
-            <a href="{% url 'quoteapp:detail_quote' quote.id %}" role="textbox" class="outline"> {{ quote.quote }} </a>
-            <a href="{% url 'quoteapp:author' %}" role="button"> {{ quote.author }} </a>
+            <a href="{% url 'quoteapp:detail_quote' quote.id %}" role="button" class="outline"> {{ quote.quote }} </a>
+            <a href="{% url 'quoteapp:detail_author' quote.author.id %}" role="button"> {{ quote.author }} </a>
             <a href="{% url 'quoteapp:delete_quote' quote.id %}" role="button" class="contrast"> Delete note </a>
-
         </li>
     </ul>
     {% endfor %}
