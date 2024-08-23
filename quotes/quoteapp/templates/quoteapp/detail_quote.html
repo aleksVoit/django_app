@@ -1,0 +1,15 @@
+{% extends "quoteapp/base.html" %} {% load extract_quote_tags %} {% block content %}
+
+<h1>{{ quote.quote }}</h1>
+<p>Author: <b>{{ quote.author }}</b></p>
+<!--<p>Tags: <kbd>{{quote.tags}}</kbd></p>-->
+<!--{% if note.done %}-->
+<!--<p>-->
+<!--  Status:-->
+<!--  <ins>Completed</ins>-->
+<!--</p>-->
+<!--{% else %}-->
+<!--<p>Status: <i>Not implemented</i></p>-->
+<!--{% endif %}-->
+<p>Tags: <small> {{ quote.tags|tags }} </small></p>
+{% endblock %}
