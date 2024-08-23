@@ -6,7 +6,13 @@ from .models import Quote, Author
 
 
 def main(request):
-    return render(request, 'quoteapp/index.html')
+    quotes = Quote.objects.all()
+    return render(request, 'quoteapp/index.html', {'quotes': quotes})
+
+
+def delete_quote(request, quote_id):
+    Quote.objects.get(pk=quote_id).delete()
+    return redirect(to='quoteapp:main')
 
 
 def author(request):
