@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Organizer</title>
+    <title>Quotes</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
 </head>
 <body>
 <main class="container">
-    <h1>Main page</h1>
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        <ul>
+            <li><a href="{% url 'quoteapp:quote' %}" role="button">Add quote</a></li>
+            <li><a href="{% url 'quoteapp:author' %}" role="button">Add author</a></li>
+        </ul>
+    </nav>
+
+    {% for quote in quotes %}
+    <ul>
+        <li>
+
+            <a href="{% url 'quoteapp:detail_quote' quote.id %}" role="textbox" class="outline"> {{ quote.quote }} </a>
+            <a href="{% url 'quoteapp:author' %}" role="button"> {{ quote.author }} </a>
+            <a href="{% url 'quoteapp:delete_quote' quote.id %}" role="button" class="contrast"> Delete note </a>
+
+        </li>
+    </ul>
+    {% endfor %}
 </main>
 </body>
 </html>
+
+
