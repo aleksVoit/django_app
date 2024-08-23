@@ -10,11 +10,6 @@ def main(request):
     return render(request, 'quoteapp/index.html', {'quotes': quotes})
 
 
-def delete_quote(request, quote_id):
-    Quote.objects.get(pk=quote_id).delete()
-    return redirect(to='quoteapp:main')
-
-
 def author(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
@@ -52,4 +47,19 @@ def quote(request):
 def detail_quote(request, quote_id):
     d_quote = get_object_or_404(Quote, pk=quote_id)
     return render(request, 'quoteapp/detail_quote.html', {'quote': d_quote})
+
+
+def delete_quote(request, quote_id):
+    Quote.objects.get(pk=quote_id).delete()
+    return redirect(to='quoteapp:main')
+
+
+def detail_author(request, author_id):
+    d_author = get_object_or_404(Author, pk=author_id)
+    return render(request, 'quoteapp/detail_author.html', {'d_author': d_author})
+
+
+def delete_author(request, author_id):
+    Author.objects.get(pk=author_id).delete()
+    return redirect(to='quoteapp:main')
 
