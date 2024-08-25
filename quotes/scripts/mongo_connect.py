@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 import os
 import certifi
 
+
+
 load_dotenv()
 
 user = os.getenv('MG_USER')
