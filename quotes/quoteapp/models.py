@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 class Author(models.Model):
     fullname = models.CharField(max_length=50, null=False, unique=True)
     born_date = models.CharField(max_length=15, null=False)
-    born_location = models.CharField(max_length=50, null=False)
+    born_location = models.CharField(max_length=100, null=False)
     description = models.TextField()
 
     def __str__(self):

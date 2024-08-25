@@ -30,6 +30,5 @@ class QuoteForm(ModelForm):
 
     def clean_tags(self):
         data = self.cleaned_data['tags']
-
         tags_list = [tag.strip() for tag in data.split(',') if tag.strip()]
         return tags_list

@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AuthorForm, QuoteForm
 from .models import Quote, Author
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 def main(request):
     quotes = Quote.objects.all()
+    print(request.body)
     return render(request, 'quoteapp/index.html', {'quotes': quotes})
 
 
+@login_required
 def author(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
@@ -25,6 +28,7 @@ def author(request):
     return render(request, 'quoteapp/author.html', {'form': AuthorForm()})
 
 
+@login_required
 def quote(request):
     if request.method == 'POST':
         form = QuoteForm(request.POST)
@@ -50,7 +54,8 @@ def detail_quote(request, quote_id):
 
 
 def delete_quote(request, quote_id):
-    Quote.objects.get(pk=quote_id).delete()
+    if request.user.is_authenticated:
+        Quote.objects.get(pk=quote_id).delete()
     return redirect(to='quoteapp:main')
 
 
@@ -60,6 +65,7 @@ def detail_author(request, author_id):
 
 
 def delete_author(request, author_id):
-    Author.objects.get(pk=author_id).delete()
+    if request.user.is_authenticated:
+        Author.objects.get(pk=author_id).delete()
     return redirect(to='quoteapp:main')
 
