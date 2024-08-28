@@ -11,5 +11,9 @@
 <!--{% else %}-->
 <!--<p>Status: <i>Not implemented</i></p>-->
 <!--{% endif %}-->
-<p>Tags: <small> {{ quote.tags|tags }} </small></p>
+<!--<p>Tags: <small> {{ quote.tags|tags }} </small></p>-->
+{% for tag in quote.tags %}
+<a href="{% url 'quoteapp:quotes_with_tag' tag %}" role="button" class="outline"> {{ tag }} </a>
+{% endfor %}
+
 {% endblock %}

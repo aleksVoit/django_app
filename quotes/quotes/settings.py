@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+from mongoengine import connect
+import certifi
 
 dotenv.load_dotenv('../.env')
 
@@ -93,6 +95,17 @@ DATABASES = {
     }
 }
 
+user = os.getenv('MG_USER')
+password = os.getenv('MG_PASS')
+cluster = os.getenv('MG_CLUSTER')
+domain = os.getenv('MG_DOMAIN')
+db_name = os.getenv('MG_DB')
+
+connect(
+    db=db_name,
+    host=f'mongodb+srv://{user}:{password}@{cluster}.{domain}',
+    tlsCAFile=certifi.where()
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

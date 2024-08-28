@@ -32,7 +32,7 @@ def migrate_quotes():
 
     for mongo_quote in mongo_quotes:
         author = Author.objects.filter(fullname=mongo_quote['author']).first()
-        if author and Quote.objects.filter(quote=mongo_quote['quote']).exist():
+        if author and not Quote.objects.filter(quote=mongo_quote['quote']).exists():
             Quote.objects.create(
                 quote=mongo_quote['quote'],
                 author=author,
