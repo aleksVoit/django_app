@@ -1,8 +1,12 @@
-from django.forms import ModelForm, CharField, TextInput, Textarea, ValidationError
+import os
+import sys
+from django import setup
+
+from django.forms import CharField, TextInput, Textarea, ValidationError, Form
 from .models import Author, Quote
 
 
-class AuthorForm(ModelForm):
+class AuthorForm(Form):
     fullname = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
     born_date = CharField(min_length=5, max_length=15, required=True, widget=TextInput())
     born_location = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
@@ -13,7 +17,7 @@ class AuthorForm(ModelForm):
         fields = ['fullname', 'born_date', 'born_location', 'description']
 
 
-class QuoteForm(ModelForm):
+class QuoteForm(Form):
     quote = CharField(widget=Textarea(attrs={'rows': 2, 'cols': 40}))
     author = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
     tags = CharField(widget=Textarea(attrs={'rows': 1, 'cols': 50}), help_text='Enter the tags separated by commas')
@@ -24,9 +28,9 @@ class QuoteForm(ModelForm):
 
     def clean_author(self):
         author_name = self.cleaned_data['author']
-        if not Author.objects.filter(fullname=author_name).exists():
+        if not Author.objects(fullname=author_name):
             raise ValidationError("The author does not exist.")
-        return Author.objects.filter(fullname=author_name).first()
+        return Author.objects(fullname=author_name).first()
 
     def clean_tags(self):
         data = self.cleaned_data['tags']

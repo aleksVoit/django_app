@@ -1,14 +1,15 @@
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AuthorForm, QuoteForm
 from .models import Quote, Author
 from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
 
 def main(request):
     quotes = Quote.objects.all()
-    print(request.body)
     return render(request, 'quoteapp/index.html', {'quotes': quotes})
 
 
@@ -17,7 +18,10 @@ def author(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
         if form.is_valid():
-            form.save()
+            Author(fullname=form.cleaned_data['fullname'],
+                   born_date=form.cleaned_data['born_date'],
+                   born_location=form.cleaned_data['born_location'],
+                   description=form.cleaned_data['description']).save()
             return_to_quote = request.session.get('return_to_quote', None)
             if return_to_quote:
                 return redirect(to='quoteapp:quote')
@@ -33,7 +37,15 @@ def quote(request):
     if request.method == 'POST':
         form = QuoteForm(request.POST)
         if form.is_valid():
-            form.save()
+
+            author_name = form.cleaned_data['author']
+            add_author = Author.objects(fullname=str(author_name)).first()
+
+            Quote(
+                quote=form.cleaned_data['quote'],
+                author=add_author.id,
+                tags=form.cleaned_data['tags']
+            ).save()
             return redirect(to='quoteapp:main')
         elif 'The author does not exist.' in form.errors['author']:
             request.session['return_to_quote'] = request.POST
@@ -49,23 +61,37 @@ def quote(request):
 
 
 def detail_quote(request, quote_id):
-    d_quote = get_object_or_404(Quote, pk=quote_id)
-    return render(request, 'quoteapp/detail_quote.html', {'quote': d_quote})
+    try:
+        d_quote = Quote.objects(id=quote_id).first()
+        return render(request, 'quoteapp/detail_quote.html', {'quote': d_quote})
+    except IOError as err:
+        print(f'{err}')
 
 
 def delete_quote(request, quote_id):
     if request.user.is_authenticated:
-        Quote.objects.get(pk=quote_id).delete()
+        Quote.objects(id=quote_id).delete()
     return redirect(to='quoteapp:main')
 
 
-def detail_author(request, author_id):
-    d_author = get_object_or_404(Author, pk=author_id)
-    return render(request, 'quoteapp/detail_author.html', {'d_author': d_author})
+def detail_author(request, author_name: str):
+    try:
+        d_author = Author.objects(fullname=author_name).first()
+        return render(request, 'quoteapp/detail_author.html', {'d_author': d_author})
+    except IOError as err:
+        logging.debug(f'{err}')
 
 
 def delete_author(request, author_id):
     if request.user.is_authenticated:
-        Author.objects.get(pk=author_id).delete()
+        del_author = Author.objects(id=author_id).first()
+        del_quotes = Quote.objects(author=author_id).all()
+        del_author.delete()
+        del_quotes.delete()
     return redirect(to='quoteapp:main')
+
+
+def quotes_with_tag(request, tag):
+    print(tag)
+    return render(request, 'quoteapp:quotes_with_tag')
 
