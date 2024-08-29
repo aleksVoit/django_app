@@ -92,6 +92,10 @@ def delete_author(request, author_id):
 
 
 def quotes_with_tag(request, tag):
-    print(tag)
-    return render(request, 'quoteapp:quotes_with_tag')
+    required_quotes = list()
+    all_quotes = Quote.objects.all()
+    for q in all_quotes:
+        if tag in q.tags:
+            required_quotes.append(q)
+    return render(request, 'quoteapp/quotes_with_tag.html', context={'quotes': required_quotes})
 
