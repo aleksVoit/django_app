@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AuthorForm, QuoteForm
 from .models import Quote, Author
 from django.contrib.auth.decorators import login_required
+from collections import Counter
 
 
 # Create your views here.
@@ -98,4 +99,21 @@ def quotes_with_tag(request, tag):
         if tag in q.tags:
             required_quotes.append(q)
     return render(request, 'quoteapp/quotes_with_tag.html', context={'quotes': required_quotes})
+
+
+def top_tags(request):
+    all_tags = list()
+    all_quotes = Quote.objects.all()
+    for q in all_quotes:
+        for tag in q.tags:
+            all_tags.append(tag)
+
+    tag_counter = Counter(all_tags)
+    most_common_tags = [tag[0] for tag in tag_counter.most_common(10)]
+
+    return render(request, 'quoteapp/top_tags.html', context={'tags': most_common_tags})
+
+
+
+
 
