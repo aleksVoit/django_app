@@ -11,7 +11,8 @@ from collections import Counter
 
 def main(request):
     quotes = Quote.objects.all()
-    return render(request, 'quoteapp/index.html', {'quotes': quotes})
+    tags = top_tags(10)
+    return render(request, 'quoteapp/index.html', {'quotes': quotes, 'top_tags': tags})
 
 
 @login_required
@@ -101,7 +102,7 @@ def quotes_with_tag(request, tag):
     return render(request, 'quoteapp/quotes_with_tag.html', context={'quotes': required_quotes})
 
 
-def top_tags(request):
+def top_tags(quantity):
     all_tags = list()
     all_quotes = Quote.objects.all()
     for q in all_quotes:
@@ -109,9 +110,9 @@ def top_tags(request):
             all_tags.append(tag)
 
     tag_counter = Counter(all_tags)
-    most_common_tags = [tag[0] for tag in tag_counter.most_common(10)]
+    most_common_tags = [tag[0] for tag in tag_counter.most_common(quantity)]
 
-    return render(request, 'quoteapp/top_tags.html', context={'tags': most_common_tags})
+    return most_common_tags
 
 
 

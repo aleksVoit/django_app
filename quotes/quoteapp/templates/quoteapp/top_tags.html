@@ -1,9 +1,0 @@
-{% extends "quoteapp/base.html" %} {% block content %}
-
-{% for tag in tags %}
-<a href="{% url 'quoteapp:quotes_with_tag' tag %}" class="outline"> {{ tag }} </a>
-<div style="height: 20px;"></div>
-
-{% endfor %}
-
-{% endblock %}

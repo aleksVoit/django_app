@@ -11,6 +11,7 @@
 <body>
 <main class="container">
     <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        {% load top_tags %}
         {% if user.is_authenticated %}
         <ul>
             <li><a href="{% url 'quoteapp:quote' %}" role="button">Add quote</a></li>
@@ -54,7 +55,19 @@
         </div>
     </div>
     <div style="height: 20px;"></div>
-    {% endfor %}
+
+    <div>
+        <p>Top tags:</p>
+        {% endfor %}
+        {% for tag in top_tags %}
+        <span class="tag_item">
+            <a href="{% url 'quoteapp:quotes_with_tag' tag %}" class="outline"> {{ tag }} </a>
+        </span>
+        <div style="height: 20px;"></div>
+        {% endfor %}
+
+    </div>
+
 
 
 </main>
