@@ -36,7 +36,7 @@ class PGAuthor(models.Model):
 
 
 class PGQuote(models.Model):
-    quote = models.CharField(null=False)
+    quote = models.CharField(null=False, unique=True)
     author = models.ForeignKey(PGAuthor, on_delete=models.CASCADE, related_name='quotes')
     tags = ArrayField(models.CharField(max_length=50), blank=True, default=list)
 
