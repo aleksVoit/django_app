@@ -11,12 +11,10 @@
 <body>
 <main class="container">
     <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        {% load top_tags %}
         {% if user.is_authenticated %}
         <ul>
             <li><a href="{% url 'quoteapp:quote' %}" role="button">Add quote</a></li>
             <li><a href="{% url 'quoteapp:author' %}" role="button">Add author</a></li>
-            <li><a href="{% url 'quoteapp:top_tags' %}" role="button">Top tags</a></li>
         </ul>
         <ul>
             <li>Welcome <b>{{ user.username }}!</b></li>
@@ -29,7 +27,6 @@
         </ul>
         {% endif %}
     </nav>
-    {% load extract_quote_tags %}
 
     {% for quote in quotes %}
     <div class="bordered-div">
@@ -55,10 +52,32 @@
         </div>
     </div>
     <div style="height: 20px;"></div>
+    {% endfor %}
+    <nav>
+        <ul class="pager">
+
+            {% if previous_page %}
+            <li class="next">
+                <a href="{% url 'quoteapp:page' previous_page %}">
+                    <span aria-hidden="true"><-</span>
+                    " Previous"
+                </a>
+            </li>
+            {% endif %}
+            {% if next_page %}
+            <li class="next">
+                <a href="{% url 'quoteapp:page' next_page %}">
+                    "Next "
+                    <span aria-hidden="true">-></span>
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
 
     <div>
         <p>Top tags:</p>
-        {% endfor %}
         {% for tag in top_tags %}
         <span class="tag_item">
             <a href="{% url 'quoteapp:quotes_with_tag' tag %}" class="outline"> {{ tag }} </a>
