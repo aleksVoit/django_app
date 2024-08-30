@@ -5,6 +5,9 @@ app_name = 'quoteapp'
 
 urlpatterns = [
     path('', views.main, name='main'),
+
+    path('page/<int:page_number>', views.page, name='page'),
+
     path('author/', views.author, name='author'),
     path('quote/', views.quote, name='quote'),
     path('detail_quote/<str:quote_id>', views.detail_quote, name='detail_quote'),

@@ -23,5 +23,16 @@
         </div>
     </div>
     <div style="height: 20px;"></div>
+
 {% endfor %}
+<div>
+        <p>Top tags:</p>
+        {% for tag in top_tags %}
+        <span class="tag_item">
+            <a href="{% url 'quoteapp:quotes_with_tag' tag %}" class="outline"> {{ tag }} </a>
+        </span>
+        <div style="height: 20px;"></div>
+        {% endfor %}
+
+    </div>
 {% endblock %}

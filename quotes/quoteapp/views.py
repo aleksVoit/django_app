@@ -7,12 +7,42 @@ from collections import Counter
 
 
 # Create your views here.
+PERIOD = 10
 
 
 def main(request):
-    quotes = Quote.objects.all()
+    start = 0
+    stop = PERIOD
+    quotes = Quote.objects.all()[start:stop]
+    next_page = '2'
     tags = top_tags(10)
-    return render(request, 'quoteapp/index.html', {'quotes': quotes, 'top_tags': tags})
+    return render(request, 'quoteapp/index.html',
+                  {'quotes': quotes,
+                   'top_tags': tags,
+                   'next_page': next_page,
+                   'previous_page': None})
+
+
+def page(request, page_number=1):
+    period = 10
+    start = period * (page_number - 1)
+    stop = period * page_number
+    quotes = Quote.objects.all()
+    page_quotes = quotes[start:stop]
+    number_of_pages = int(len(quotes)/period) + 1
+    next_page = str(page_number + 1)
+    previous_page = str(page_number - 1)
+    if page_number == number_of_pages:
+        next_page = None
+    if page_number == 1:
+        previous_page = None
+
+    tags = top_tags(10)
+    return render(request, 'quoteapp/index.html',
+                  {'quotes': page_quotes,
+                   'top_tags': tags,
+                   'next_page': next_page,
+                   'previous_page': previous_page})
 
 
 @login_required
@@ -94,12 +124,14 @@ def delete_author(request, author_id):
 
 
 def quotes_with_tag(request, tag):
+    tags = top_tags(10)
     required_quotes = list()
     all_quotes = Quote.objects.all()
     for q in all_quotes:
         if tag in q.tags:
             required_quotes.append(q)
-    return render(request, 'quoteapp/quotes_with_tag.html', context={'quotes': required_quotes})
+    return render(request, 'quoteapp/quotes_with_tag.html', context={'quotes': required_quotes,
+                                                                     'top_tags': tags})
 
 
 def top_tags(quantity):
