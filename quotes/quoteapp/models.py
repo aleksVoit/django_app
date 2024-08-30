@@ -24,3 +24,22 @@ class Quote(Document):
     def __str__(self):
         return f'{self.quote}\n{self.author}.'
 
+
+class PGAuthor(models.Model):
+    fullname = models.CharField(max_length=100, null=False, unique=True)
+    born_date = models.CharField(max_length=30, null=False)
+    born_location = models.CharField(max_length=100, null=False)
+    description = models.TextField(null=False)
+
+    def __str__(self):
+        return f'{self.fullname}'
+
+
+class PGQuote(models.Model):
+    quote = models.CharField(null=False)
+    author = models.ForeignKey(PGAuthor, on_delete=models.CASCADE, related_name='quotes')
+    tags = ArrayField(models.CharField(max_length=50), blank=True, default=list)
+
+    def __str__(self):
+        return f'{self.quote}\n{self.author}.'
+

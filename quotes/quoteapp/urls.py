@@ -15,4 +15,6 @@ urlpatterns = [
     path('quotes_with_tag/<str:tag>', views.quotes_with_tag, name='quotes_with_tag'),
     path('detail_author/<str:author_name>', views.detail_author, name='detail_author'),
     path('delete_author/<str:author_id>', views.delete_author, name='delete_author'),
+    path('scrape_the_site/', views.scrape_the_site, name='scrape_the_site'),
+
 ]

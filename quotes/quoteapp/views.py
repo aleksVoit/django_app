@@ -1,7 +1,7 @@
 import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AuthorForm, QuoteForm
-from .models import Quote, Author
+from .models import Quote, Author, PGAuthor, PGQuote
 from django.contrib.auth.decorators import login_required
 from collections import Counter
 
@@ -24,12 +24,11 @@ def main(request):
 
 
 def page(request, page_number=1):
-    period = 10
-    start = period * (page_number - 1)
-    stop = period * page_number
+    start = PERIOD * (page_number - 1)
+    stop = PERIOD * page_number
     quotes = Quote.objects.all()
     page_quotes = quotes[start:stop]
-    number_of_pages = int(len(quotes)/period) + 1
+    number_of_pages = int(len(quotes)/PERIOD) + 1
     next_page = str(page_number + 1)
     previous_page = str(page_number - 1)
     if page_number == number_of_pages:
@@ -145,6 +144,13 @@ def top_tags(quantity):
     most_common_tags = [tag[0] for tag in tag_counter.most_common(quantity)]
 
     return most_common_tags
+
+
+@login_required()
+def scrape_the_site(request):
+    url = 'http://db.aleksvoit.com:8000/'
+    print('scraping started')
+    return render(request, 'quoteapp/scraping.html', context={'url': url})
 
 
 
