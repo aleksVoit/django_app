@@ -16,10 +16,11 @@ import dotenv
 from mongoengine import connect
 import certifi
 
-dotenv.load_dotenv('../.env')
+dotenv.load_dotenv('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,6 +33,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0']
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost',
+    'https://creepy-sula-aleks-gmbh-8a8f8841.koyeb.app'
+]
 
 
 # Application definition
