@@ -4,7 +4,7 @@ services:
     working_dir: /django_app
     volumes:
       - .:/django_app
-    command: bash -c "pip install -r requirements.txt && python quotes/manage.py migrate && python quotes/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "pip install -r requirements.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     environment:
       - DEBUG=1
       - SECRET_KEY=${SECRET_KEY}

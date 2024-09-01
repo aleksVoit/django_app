@@ -22,12 +22,14 @@ ENV SECRET_KEY="django-insecure-&23_hg*zw_#6+39^jp-q*l(%l$uyd#jt5nf-t^+ala5w++2)
 WORKDIR /django_app
 
 # Копируйте файл зависимостей
-COPY . /django_app
+COPY requirements.txt /django_app
 
 # Установите зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY . /django_app
+
 # Копируйте код приложения
 
 # Команда для запуска вашего приложения
-CMD ["python", "quotes/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

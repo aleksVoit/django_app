@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'creep
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost',
+    'http://127.0.0.1:8000',
     'https://creepy-sula-aleks-gmbh-8a8f8841.koyeb.app'
 ]
 

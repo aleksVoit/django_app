@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Quotes information</title>
+
+
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
     {% load static %}
     <link rel="stylesheet" href="{% static 'quoteapp/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'quoteapp/favicon.ico' %}">
+
 
 
 </head>
@@ -13,8 +17,24 @@
 <main class="container">
     <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
         <ul>
-            <li><a href="/" role="button"> Go back to the main page </a></li>
+            <li><a href="/"><h1>Django quotes app</h1></a></li>
         </ul>
+        {% if user.is_authenticated %}
+        <ul>
+            <li><a href="{% url 'quoteapp:quote' %}" role="button">Add quote</a></li>
+            <li><a href="{% url 'quoteapp:author' %}" role="button">Add author</a></li>
+            <li><a href="{% url 'quoteapp:scrape_the_site' %}" role="button">Scrape this site</a></li>
+        </ul>
+        <ul>
+            <li>Welcome <b>{{ user.username }}!</b></li>
+            <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
+        </ul>
+        {% else %}
+        <ul>
+            <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+            <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+        </ul>
+        {% endif %}
     </nav>
     {% block content %} {% endblock %}
 </main>
