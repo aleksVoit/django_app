@@ -1,2 +1,1 @@
-web: gunicorn quotes.wsgi --log-file -
-worker: python manage.py runserver
+web: gunicorn quotes.wsgi

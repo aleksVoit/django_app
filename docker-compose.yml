@@ -1,0 +1,40 @@
+services:
+  web:
+    image: python:3.11-slim
+    working_dir: /django_app
+    volumes:
+      - .:/django_app
+    command: bash -c "pip install -r requirements.txt && python quotes/manage.py migrate && python quotes/manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=${SECRET_KEY}
+    env_file: .env
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - app_net
+
+
+  db:
+    image: postgres:16.1
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - type: bind
+        source: ./db_data
+        target: /var/lib/postgresql/data
+    ports:
+      - ${PG_PORT}:${PG_PORT}
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
+

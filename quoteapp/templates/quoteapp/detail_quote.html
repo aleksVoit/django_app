@@ -1,0 +1,9 @@
+{% extends "quoteapp/base.html" %} {% block content %}
+
+<h1>{{ quote.quote }}</h1>
+<p>Author: <b>{{ quote.author }}</b></p>
+{% for tag in quote.tags %}
+<a href="{% url 'quoteapp:quotes_with_tag' tag %}" role="button" class="outline"> {{ tag }} </a>
+{% endfor %}
+
+{% endblock %}

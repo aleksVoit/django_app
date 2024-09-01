@@ -1,0 +1,20 @@
+.alert-error, .errorlist{
+    color: crimson;
+}
+
+.alert-success{
+    color: green;
+}
+
+.bordered-div{
+    border: 2px solid black; /* Толщина, стиль и цвет рамки */
+    padding: 20px; /* Внутренний отступ от содержимого до рамки */
+    width: 1200px; /* Ширина div */
+}
+
+.pager {
+    padding-left: 0;
+    margin: 22px 0;
+    list-style: none;
+    text-align: center
+}

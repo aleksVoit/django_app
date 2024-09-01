@@ -1,0 +1,8 @@
+{% extends "quoteapp/base.html" %} {% load scrape_site %}
+{% block content %}
+
+<p>Scraping result: <small> {{ url|scrape_site }} </small></p>
+
+
+
+{% endblock %}
