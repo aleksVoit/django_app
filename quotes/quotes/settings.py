@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,19 +82,34 @@ WSGI_APPLICATION = "quotes.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if os.getenv('PG_HOST') is None:
-    raise RuntimeError('Failed to load DB HOST name')
+# if os.getenv('PG_HOST') is None:
+#     raise RuntimeError('Failed to load DB HOST name')
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv('PG_DB'),
-        'USER': os.getenv('PG_USER'),
-        'PASSWORD': os.getenv('PG_PASSWORD'),
-        'HOST': os.getenv('PG_HOST'),
-        'PORT': os.getenv('PG_PORT')
+if DEBUG is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.getenv('PG_DB'),
+            'USER': os.getenv('PG_USER'),
+            'PASSWORD': os.getenv('PG_PASSWORD'),
+            # 'HOST': os.getenv('PG_HOST'),
+            'HOST': 'db',
+            'PORT': os.getenv('PG_PORT')
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.getenv('DATABASE_NAME'),
+            'USER': os.getenv('DATABASE_USER'),
+            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+            'HOST': os.getenv('DATABASE_HOST'),
+            # 'PORT': 5432,
+            'OPTIONS': {'sslmode': 'require'},
+
+        }
+    }
 
 user = os.getenv('MG_USER')
 password = os.getenv('MG_PASS')
@@ -103,9 +119,12 @@ db_name = os.getenv('MG_DB')
 
 connect(
     db=db_name,
-    host=f'mongodb+srv://{user}:{password}@{cluster}.{domain}',
+    host=f'mongodb+srv://{user}:{password}@{cluster}.{domain}/',
     tlsCAFile=certifi.where()
 )
+# mongodb+srv://oleksandrvoitushenko:<db_password>@clusterhw8.gaxzbkd.mongodb.net/
+
+# host=f'mongodb+srv://{user}:{password}@{cluster}.{domain}/?retryWrites=true&w=majority,'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -141,8 +160,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
