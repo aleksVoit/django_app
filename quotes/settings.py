@@ -15,12 +15,15 @@ import os
 import dotenv
 from mongoengine import connect
 import certifi
+import ssl
 
 dotenv.load_dotenv('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
+
+ssl_context = ssl.create_default_context(cafile=certifi.where())
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +33,8 @@ print(BASE_DIR)
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+
 
 ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'creepy-sula-aleks-gmbh-8a8f8841.koyeb.app']
 
@@ -71,7 +75,7 @@ ROOT_URLCONF = "quotes.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -100,8 +104,8 @@ if DEBUG is True:
             "NAME": os.getenv('PG_DB'),
             'USER': os.getenv('PG_USER'),
             'PASSWORD': os.getenv('PG_PASSWORD'),
-            # 'HOST': os.getenv('PG_HOST'),
-            'HOST': 'db',
+            'HOST': os.getenv('PG_HOST'),
+            # 'HOST': 'db',
             'PORT': os.getenv('PG_PORT')
         }
     }
@@ -176,3 +180,15 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('email_port')
+EMAIL_STARTTLS = os.getenv('EMAIL_STARTTLS')
+
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

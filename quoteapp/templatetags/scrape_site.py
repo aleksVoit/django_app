@@ -62,7 +62,6 @@ def parse_author(author_name: str, author_url: str):
 
 
 def scrape(base_url: str):
-    print('start')
     url = base_url
     try:
         parse_quotes(url)
