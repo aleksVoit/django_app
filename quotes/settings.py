@@ -14,8 +14,11 @@ from pathlib import Path
 import os
 import dotenv
 from mongoengine import connect
+
 import certifi
 import ssl
+from django.core.mail import get_connection
+
 
 dotenv.load_dotenv('.env')
 
@@ -23,7 +26,7 @@ dotenv.load_dotenv('.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
 
-ssl_context = ssl.create_default_context(cafile=certifi.where())
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -192,3 +195,15 @@ EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+connection = get_connection(
+    use_ssl=True,
+    ssl_context=ssl_context,
+    host=os.getenv('EMAIL_HOST'),
+    port=465,
+    username=os.getenv('EMAIL_HOST_USER'),
+    password=os.getenv('EMAIL_HOST_PASSWORD'),
+)
