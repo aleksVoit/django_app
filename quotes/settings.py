@@ -13,13 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+import environ
 from mongoengine import connect
-
 import certifi
-import ssl
-from django.core.mail import get_connection
-
-from django.core.mail.backends.smtp import EmailBackend
 
 dotenv.load_dotenv('.env')
 
@@ -27,14 +23,15 @@ dotenv.load_dotenv('.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
 
-
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,33 +102,33 @@ if DEBUG is True:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.getenv('PG_DB'),
-            'USER': os.getenv('PG_USER'),
-            'PASSWORD': os.getenv('PG_PASSWORD'),
-            'HOST': os.getenv('PG_HOST'),
+            "NAME": env('PG_DB'),
+            'USER': env('PG_USER'),
+            'PASSWORD': env('PG_PASSWORD'),
+            'HOST': env('PG_HOST'),
             # 'HOST': 'db',
-            'PORT': os.getenv('PG_PORT')
+            'PORT': env('PG_PORT')
         }
     }
 else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.getenv('DATABASE_NAME'),
-            'USER': os.getenv('DATABASE_USER'),
-            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-            'HOST': os.getenv('DATABASE_HOST'),
+            "NAME": env('DATABASE_NAME'),
+            'USER': env('DATABASE_USER'),
+            'PASSWORD': env('DATABASE_PASSWORD'),
+            'HOST': env('DATABASE_HOST'),
             # 'PORT': 5432,
             'OPTIONS': {'sslmode': 'require'},
 
         }
     }
 
-user = os.getenv('MG_USER')
-password = os.getenv('MG_PASS')
-cluster = os.getenv('MG_CLUSTER')
-domain = os.getenv('MG_DOMAIN')
-db_name = os.getenv('MG_DB')
+user = env('MG_USER')
+password = env('MG_PASS')
+cluster = env('MG_CLUSTER')
+domain = env('MG_DOMAIN')
+db_name = env('MG_DB')
 
 connect(
     db=db_name,
@@ -191,16 +188,16 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # EmailBackend.ssl_context = my_ssl_context
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('email_port')
-EMAIL_STARTTLS = os.getenv('EMAIL_STARTTLS')
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_STARTTLS = env('EMAIL_STARTTLS')
 
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
