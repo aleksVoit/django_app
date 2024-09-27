@@ -19,6 +19,7 @@ import certifi
 import ssl
 from django.core.mail import get_connection
 
+from django.core.mail.backends.smtp import EmailBackend
 
 dotenv.load_dotenv('.env')
 
@@ -182,8 +183,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# def my_ssl_context(self):
+#     return ssl.create_default_context(cafile=certifi.where())
+#
+#
+# EmailBackend.ssl_context = my_ssl_context
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('email_port')
@@ -197,13 +204,13 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-ssl_context = ssl.create_default_context(cafile=certifi.where())
-
-connection = get_connection(
-    use_ssl=True,
-    ssl_context=ssl_context,
-    host=os.getenv('EMAIL_HOST'),
-    port=465,
-    username=os.getenv('EMAIL_HOST_USER'),
-    password=os.getenv('EMAIL_HOST_PASSWORD'),
-)
+# ssl_context = ssl.create_default_context(cafile=certifi.where())
+#
+# connection = get_connection(
+#     use_ssl=True,
+#     ssl_context=ssl_context,
+#     host=os.getenv('EMAIL_HOST'),
+#     port=465,
+#     username=os.getenv('EMAIL_HOST_USER'),
+#     password=os.getenv('EMAIL_HOST_PASSWORD'),
+# )
