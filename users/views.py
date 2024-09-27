@@ -7,12 +7,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .forms import RegisterForm, LoginForm, ProfileForm
 
-import ssl
-import certifi
-from django.core.mail import get_connection
-
-
-
 
 # Create your views here.
 
@@ -71,16 +65,6 @@ def profile(request):
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-    ssl_context = ssl.create_default_context(cafile=certifi.where())
-    connection = get_connection(
-        use_ssl=True,
-        ssl_context=ssl_context,
-        host='smtp.meta.ua',
-        port=465,
-        username='aleks.voit@meta.ua',
-        password='1234Nm,.',
-    )
-
     template_name = 'users/password_reset.html'
     email_template_name = 'users/password_reset_email.html'
     html_email_template_name = 'users/password_reset_email.html'
