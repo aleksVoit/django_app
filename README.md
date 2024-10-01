@@ -12,3 +12,26 @@ def ssl_context(self):
         return ssl_context
     else:
         return ssl.create_default_context(cafile=certifi.where()) <-- добавил cafile=certifi.where()
+
+
+
+документация создается при помощи модуля - mkdocs
+
+пишем docstrings в модулях
+
+устанавливаются модули mkdocs и mkdocstrings-python
+
+создаем папку docs, c файлами документации .md, в который указаны соответствующие модули для внеснеия в док-цию
+hello.md, index.md, test.md
+
+создается файл mkdocs.yml
+
+mkdocs --help
+Commands:
+  build      Build the MkDocs documentation.
+  get-deps   Show required PyPI packages inferred from plugins in mkdocs.yml.
+  gh-deploy  Deploy your documentation to GitHub Pages.
+  new        Create a new MkDocs project.
+  serve      Run the builtin development server.
+
+используем mkdocs serve

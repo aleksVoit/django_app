@@ -1,0 +1,17 @@
+site_name: ExampleDocs
+
+theme:
+  name: readthedocs
+
+plugins:
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        options:
+          filters: null
+
+nav:
+  - index.md
+  - hello.md
+  - test.md
+
