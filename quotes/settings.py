@@ -31,7 +31,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'kind-sibbie-aleks-gmbh-38417f5e.koyeb.app']
