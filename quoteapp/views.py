@@ -49,10 +49,13 @@ def author(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
         if form.is_valid():
-            Author(fullname=form.cleaned_data['fullname'],
-                   born_date=form.cleaned_data['born_date'],
-                   born_location=form.cleaned_data['born_location'],
-                   description=form.cleaned_data['description']).save()
+            try:
+                Author(fullname=form.cleaned_data['fullname'],
+                       born_date=form.cleaned_data['born_date'],
+                       born_location=form.cleaned_data['born_location'],
+                       description=form.cleaned_data['description']).save()
+            except NotUniqueError:
+                return redirect(to='quoteapp:main')
             return_to_quote = request.session.get('return_to_quote', None)
             if return_to_quote:
                 return redirect(to='quoteapp:quote')
