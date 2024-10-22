@@ -31,7 +31,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'kind-sibbie-aleks-gmbh-38417f5e.koyeb.app']
@@ -98,13 +98,21 @@ WSGI_APPLICATION = "quotes.wsgi.application"
 if DEBUG is True:
     DATABASES = {
         "default": {
+            # "ENGINE": "django.db.backends.postgresql_psycopg2",
+            # "NAME": env('PG_DB'),
+            # 'USER': env('PG_USER'),
+            # 'PASSWORD': env('PG_PASSWORD'),
+            # 'HOST': env('PG_HOST'),
+            # # 'HOST': 'db',
+            # 'PORT': env('PG_PORT'),
+
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": env('PG_DB'),
-            'USER': env('PG_USER'),
-            'PASSWORD': env('PG_PASSWORD'),
-            'HOST': env('PG_HOST'),
-            # 'HOST': 'db',
-            'PORT': env('PG_PORT')
+            "NAME": env('DATABASE_NAME'),
+            'USER': env('DATABASE_USER'),
+            'PASSWORD': env('DATABASE_PASSWORD'),
+            'HOST': env('DATABASE_HOST'),
+            # 'PORT': 5432,
+            'OPTIONS': {'sslmode': 'require'},
         }
     }
 else:

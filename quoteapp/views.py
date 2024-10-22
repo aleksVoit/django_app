@@ -148,7 +148,7 @@ def top_tags(quantity):
 
 @login_required()
 def scrape_the_site(request):
-    url = 'http://127.0.0.1:8000/'
+    url = 'https://kind-sibbie-aleks-gmbh-38417f5e.koyeb.app/'
     print('scraping started')
     return render(request, 'quoteapp/scraping.html', context={'url': url})
 
