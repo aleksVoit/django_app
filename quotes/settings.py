@@ -34,13 +34,13 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'kind-sibbie-aleks-gmbh-38417f5e.koyeb.app/']
+ALLOWED_HOSTS = ['db.aleksvoit.com', 'localhost', '127.0.0.1', '0.0.0.0', 'kind-sibbie-aleks-gmbh-38417f5e.koyeb.app']
 
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost',
     'http://127.0.0.1:8000',
-    'https://creepy-sula-aleks-gmbh-8a8f8841.koyeb.app'
+    'https://kind-sibbie-aleks-gmbh-38417f5e.koyeb.app'
 ]
 
 
